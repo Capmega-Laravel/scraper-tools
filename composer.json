@@ -1,0 +1,31 @@
+{
+    "name": "sdkconsultoria/blog-scraping",
+    "type": "library",
+    "description": "Integra sistema de scraping para blogs",
+    "keywords": ["laravel","scraping"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Camilo Rodriguez Cruz",
+            "email": "camilo@sdkconsultoria.com",
+            "homepage": "https://sdkconsultoria.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=7.2",
+        "fabpot/goutte": "^4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Sdkconsultoria\\BlogScraping\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Sdkconsultoria\\BlogScraping\\ScrapingServiceProvider"
+            ]
+        }
+    }
+}
