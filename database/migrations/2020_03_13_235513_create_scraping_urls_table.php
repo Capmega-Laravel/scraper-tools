@@ -24,6 +24,7 @@ class CreateScrapingUrlsTable extends Migration
             $table->string('name', 64)->nullable();
             $table->string('seoname', 64)->nullable();
             $table->string('url')->nullable();
+            $table->string('driver')->nullable();
         });
     }
 

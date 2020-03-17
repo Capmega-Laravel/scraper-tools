@@ -8,5 +8,7 @@ return [
      |
      |
      */
-    'drivers' => [],
+    'drivers' => [
+        'Sdkconsultoria\BlogScraping\Drivers\ExampleDriver' => 'ExampleDriver'
+    ],
 ];

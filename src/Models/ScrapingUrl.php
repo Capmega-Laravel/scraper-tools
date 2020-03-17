@@ -14,6 +14,10 @@ class ScrapingUrl extends ResourceModel
     public static function rules($params)
     {
         return [
+            'scraping_source_id' => 'required',
+            'url'    => 'required',
+            'driver' => 'required',
+            'name'   => 'required',
         ];
     }
 
@@ -26,6 +30,9 @@ class ScrapingUrl extends ResourceModel
     {
         $attributes = parent::attributes();
         return array_merge($attributes, [
+            'scraping_source_id' => __('scraping::attributes.url.scraping_source_id'),
+            'url' => __('scraping::attributes.url.url'),
+            'driver' => __('scraping::attributes.url.driver'),
         ]);
     }
 
@@ -39,5 +46,16 @@ class ScrapingUrl extends ResourceModel
         $attributes = parent::getFiltersAttribute();
         return array_merge([
         ], $attributes);
+    }
+
+    /**
+     * Save item
+     * @param  array  $options [description]
+     * @return [type]          [description]
+     */
+    public function save(array $options = [])
+    {
+        $this->generateSeoname();
+        parent::save($options);
     }
 }

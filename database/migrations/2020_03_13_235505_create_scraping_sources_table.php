@@ -20,6 +20,7 @@ class CreateScrapingSourcesTable extends Migration
 
             $table->string('name', 64)->nullable();
             $table->string('seoname', 64)->nullable();
+            $table->string('domain', 64)->nullable();
 
         });
     }

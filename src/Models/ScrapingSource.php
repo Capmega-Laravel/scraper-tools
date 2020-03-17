@@ -14,6 +14,8 @@ class ScrapingSource extends ResourceModel
     public static function rules($params)
     {
         return [
+            'name'   => 'required|min:3',
+            'domain' => 'required',
         ];
     }
 
@@ -39,5 +41,16 @@ class ScrapingSource extends ResourceModel
         $attributes = parent::getFiltersAttribute();
         return array_merge([
         ], $attributes);
+    }
+
+    /**
+     * Save item
+     * @param  array  $options [description]
+     * @return [type]          [description]
+     */
+    public function save(array $options = [])
+    {
+        $this->generateSeoname();
+        parent::save($options);
     }
 }
