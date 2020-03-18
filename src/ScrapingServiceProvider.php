@@ -25,7 +25,10 @@ class ScrapingServiceProvider extends ServiceProvider
             __DIR__.'/../translations' => resource_path('lang/vendor/scraping'),
         ]);
 
+        $this->commands([
+            \Sdkconsultoria\BlogScraping\Commands\Scraping::class,
 
+        ]);
     }
 
     /**

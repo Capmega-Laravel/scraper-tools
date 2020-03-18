@@ -3,7 +3,7 @@ namespace Sdkconsultoria\BlogScraping\Drivers;
 
 use Goutte\Client;
 use Symfony\Component\HttpClient\HttpClient;
-use Sdkconsultoria\Blog\Models\{Blog , BlogPost};
+use Sdkconsultoria\BlogScraping\Models\{ScrapingData , ScrapingDataKey, ScrapingUrl};
 
 /**
  *
@@ -14,12 +14,13 @@ abstract class BaseDriver
     protected $method  = 'GET';
     protected $limit   = 10;
     protected $identifier;
-    protected $blog_id;
+    protected $scraping_url_id;
 
     abstract protected function parseData($data);
 
     function __construct() {
-        $this->findBlog();
+        $url = ScrapingUrl::where('driver', get_class($this))->first();
+        $this->scraping_url_id = $url->id;
     }
 
     public function getData()
@@ -29,19 +30,19 @@ abstract class BaseDriver
 
         foreach ($parse_data as $key => $data) {
             if ($key < $this->limit) {
-                $this->insertBlogPost($data);
+                $this->insertData($data);
             }else{
                 break;
             }
         }
     }
 
-    protected function insertBlogPost(array $data)
+    protected function insertData(array $data)
     {
-        $blog_post                   = new BlogPost();
-        $blog_post->blog_id          = $this->blog_id;
+        $blog_post                   = new ScrapingData();
         $blog_post->created_by       = 1;
-        $blog_post->status           = BlogPost::STATUS_ACTIVE;
+        $blog_post->status           = ScrapingData::STATUS_ACTIVE;
+        $blog_post->scraping_url_id  = $this->scraping_url_id;
         $blog_post->name             = $data['name']??'';
         $blog_post->title            = $data['title']??'';
         $blog_post->subtitle         = $data['subtitle']??'';
@@ -49,20 +50,5 @@ abstract class BaseDriver
         $blog_post->meta_description = $data['meta_description']??'';
         $blog_post->description      = $data['description']??'';
         $blog_post->save();
-    }
-
-    protected function findBlog()
-    {
-        $blog = Blog::where('identifier', $this->identifier)->first();
-        if (!$blog) {
-            $blog              = new Blog();
-            $blog->identifier  = $this->identifier;
-            $blog->name        = $this->identifier;
-            $blog->created_by  = 1;
-            $blog->status      = Blog::STATUS_ACTIVE;
-            $blog->description = 'Created automatically by BlogScraping';
-            $blog->save();
-        }
-        $this->blog_id = $blog->id;
     }
 }
