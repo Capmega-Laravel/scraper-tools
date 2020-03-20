@@ -1,9 +1,10 @@
 <?php
 namespace Sdkconsultoria\BlogScraping\Drivers;
 
+use Storage;
 use Goutte\Client;
 use Symfony\Component\HttpClient\HttpClient;
-use Sdkconsultoria\BlogScraping\Models\{ScrapingData , ScrapingDataKey, ScrapingUrl};
+use Sdkconsultoria\BlogScraping\Models\{ScrapingData , ScrapingDataKey, ScrapingUrl, ScrapingDataImage};
 
 /**
  *
@@ -17,25 +18,23 @@ abstract class BaseDriver
     protected $scraping_url_id;
 
     abstract protected function parseData($data);
+    abstract protected function getUrls();
 
     function __construct() {
-        $url = ScrapingUrl::where('driver', get_class($this))->first();
-        $this->scraping_url_id = $url->id;
+
     }
 
     public function getData()
     {
-        $client     = new Client(HttpClient::create(['timeout' => $this->timeout]));
-        $parse_data = $this->parseData($client->request($this->method, $this->url));
+        $url = ScrapingUrl::where('driver', get_class($this))->first();
+        $this->scraping_url_id = $url->id;
 
-        foreach ($parse_data as $key => $data) {
-            if ($key < $this->limit) {
-                $this->insertData($data);
-            }else{
-                break;
-            }
-        }
+        $client = new Client(HttpClient::create(['timeout' => $this->timeout]));
+        $data   = $this->parseData($client->request($this->method, $this->url.$url->url));
+
+        $this->insertData($data);
     }
+
 
     protected function insertData(array $data)
     {
@@ -50,5 +49,24 @@ abstract class BaseDriver
         $blog_post->meta_description = $data['meta_description']??'';
         $blog_post->description      = $data['description']??'';
         $blog_post->save();
+
+        foreach ($data['images'] as $image) {
+            $this->insertImage($image, $blog_post->id);
+        }
+    }
+
+    protected function insertImage($image, $id)
+    {
+        $info     = pathinfo($image['url']);
+        $contents = file_get_contents($image['url']);
+
+        $image                   = new ScrapingDataImage();
+        $image->scraping_data_id = $id;
+        $image->extension        = $info['extension'];
+        $image->alt              = $image['alt'];
+        $image->name             = $info['filename'];
+        $image->save();
+
+        Storage::disk('local')->put('scraping/' . $id . '/' . $image->id . '.' . $info['extension'], $contents);
     }
 }
