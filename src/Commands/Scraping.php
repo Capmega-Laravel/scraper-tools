@@ -11,7 +11,7 @@ class Scraping extends Command
      *
      * @var string
      */
-    protected $signature = 'sdk:scraping
+    protected $signature = 'sdk:Scraping
         {--driver= : el branch del cual vas a hacer deploy}
         {--resource= : el branch del cual vas a hacer deploy}
         {--url= : el branch del cual vas a hacer deploy}
