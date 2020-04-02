@@ -11,4 +11,5 @@ return [
     'drivers' => [
         'Sdkconsultoria\BlogScraping\Drivers\ExampleDriver' => 'ExampleDriver'
     ],
-];
+    'api_key' => ''
+ ];

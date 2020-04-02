@@ -17,7 +17,8 @@ use Sdkconsultoria\Base\Widgets\Information\BreadCrumb;
 
     @card({{__('scraping::attributes.source.show')}})
         <div class="form-group">
-            <a href="{{route('source.scan-url', $model->seoname)}}" class="btn btn-primary">@lang('scraping::attributes.source.load_menu')</a>
+            <a href="{{route('source.scan-menu', $model->seoname)}}" class="btn btn-primary">@lang('scraping::attributes.source.scan_menu')</a>
+            <a href="{{route('source.scan-urls', $model->seoname)}}" class="btn btn-primary">@lang('scraping::attributes.source.scan_urls')</a>
         </div>
         <?= Details::generate($model, [
             'id',

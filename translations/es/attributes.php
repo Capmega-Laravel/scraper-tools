@@ -8,8 +8,9 @@ return [
         'create'      => 'Crear recurso',
         'delete'      => 'Eliminar recurso',
         'show'        => 'Ver recurso',
-        'load_menu'   => 'Escanear URLs Urls',
+        'scan_menu'   => 'Escanear Menú',
         'scan_finish' => 'Escaneo finalizado',
+        'scan_urls'   => 'Escanear Urls',
     ],
     'url' => [
         'items'  => 'URLs',

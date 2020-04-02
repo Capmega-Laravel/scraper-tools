@@ -52,20 +52,33 @@ class ScrapingSourceController extends ResourceController
         return redirect()->route($this->resource . '.index')->with('success', __('base::messages.saved'));
     }
 
-    public function scanUrl($seoname)
+    public function scanMenu($seoname)
     {
         // $drive = new \App\Scrape\WantToKnow;
         // $drive->getUrls();
         // return redirect()->route($this->resource . '.show', $seoname)->with('success', __('scraping::attributes.scan_finish'));
 
-        $model    = $this->findModel($seoname);
-        $drivers  = ScrapingUrl::select('driver')->where('status', ScrapingUrl::STATUS_ACTIVE)->groupBy('driver')->get();
-
-        foreach ($drivers as $key => $driver) {
+        foreach ($this->getDrivers($seoname) as $key => $driver) {
             $drive = new $driver->driver;
             $drive->getUrls();
         }
 
         return redirect()->route($this->resource . '.show', $seoname)->with('success', __('scraping::attributes.scan_finish'));
+    }
+
+    public function scanUrls($seoname)
+    {
+        foreach ($this->getDrivers($seoname) as $key => $driver) {
+            $drive = new $driver->driver;
+            $drive->getData();
+        }
+
+        return redirect()->route($this->resource . '.show', $seoname)->with('success', __('scraping::attributes.scan_finish'));
+    }
+
+    private function getDrivers($seoname)
+    {
+        $model = $this->findModel($seoname);
+        return ScrapingUrl::select('driver')->where('status', ScrapingUrl::STATUS_ACTIVE)->groupBy('driver')->get();
     }
 }

@@ -59,8 +59,10 @@ abstract class BaseDriver
         $blog_post->description      = $data['description']??'';
         $blog_post->save();
 
-        foreach ($data['images'] as $image) {
-            $this->insertImage($image, $blog_post->id);
+        if (isset($data['images'])) {
+            foreach ($data['images'] as $image) {
+                $this->insertImage($image, $blog_post->id);
+            }
         }
     }
 
@@ -69,15 +71,17 @@ abstract class BaseDriver
         $info     = pathinfo($image['url']);
         $contents = file_get_contents($image['url']);
 
-        $image                   = new ScrapingDataImage();
-        $image->scraping_data_id = $id;
-        $image->extension        = $info['extension'];
-        $image->alt              = $image['alt'];
-        $image->name             = $info['filename'];
-        $image->save();
+        if (strlen($info['extension']) < 5) {
+            $image                   = new ScrapingDataImage();
+            $image->scraping_data_id = $id;
+            $image->extension        = $info['extension'];
+            $image->alt              = $image['alt'];
+            $image->name             = $info['filename'];
+            $image->save();
 
-        Storage::disk('local')->put('scraping/' . $id . '/' . $image->id . '.' . $info['extension'], $contents);
-    }
+            Storage::disk('local')->put('scraping/' . $id . '/' . $image->id . '.' . $info['extension'], $contents);
+        }
+        }
 
     protected function processUrl()
     {
