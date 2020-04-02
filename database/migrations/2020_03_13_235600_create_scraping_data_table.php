@@ -21,6 +21,9 @@ class CreateScrapingDataTable extends Migration
             $table->unsignedBigInteger('scraping_url_id')->unsigned()->index()->nullable();
             $table->foreign('scraping_url_id')->references('id')->on('scraping_urls')->onDelete('restrict');
 
+            $table->unsignedBigInteger('scraping_data_id')->unsigned()->index()->nullable();
+            $table->foreign('scraping_data_id')->references('id')->on('scraping_data')->onDelete('restrict');
+
             $table->string('version')->nullable();
             $table->string('identifier', 64)->unique()->nullable();
             $table->string('name', 64)->nullable();
