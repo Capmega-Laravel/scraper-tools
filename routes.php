@@ -8,4 +8,5 @@ Route::prefix('admin/scraping')
     Route::resource('/target', 'ScrapingTargetController');
     Route::post('set-data', 'ScrapingController@setData');
     Route::get('get-data', 'ScrapingController@getData');
+    Route::get('/source/{seoname}/scan', 'ScrapingSourceController@scanUrl')->name('source.scan-url');
 });

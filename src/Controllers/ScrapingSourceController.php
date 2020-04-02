@@ -3,7 +3,7 @@ namespace Sdkconsultoria\BlogScraping\Controllers;
 
 use Illuminate\Http\Request;
 use Sdkconsultoria\Base\Controllers\ResourceController;
-
+use  Sdkconsultoria\BlogScraping\Models\ScrapingUrl;
 /**
  * [class description]
  */
@@ -50,5 +50,16 @@ class ScrapingSourceController extends ResourceController
         $model->save();
 
         return redirect()->route($this->resource . '.index')->with('success', __('base::messages.saved'));
+    }
+
+    public function scanUrl($seoname)
+    {
+        $model    = $this->findModel($seoname);
+        $drivers  = ScrapingUrl::select('driver')->where('status', ScrapingUrl::STATUS_ACTIVE)->groupBy('driver')->get();
+
+        foreach ($drivers as $key => $driver) {
+            $driver = new $driver->driver;
+            dd($driver->getUrls());
+        }
     }
 }

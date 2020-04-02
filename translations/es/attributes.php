@@ -3,11 +3,12 @@
 return [
     'scraping' => 'Scraping',
     'source' => [
-        'items'  => 'Recursos',
-        'edit'   => 'Editar recurso',
-        'create' => 'Crear recurso',
-        'delete' => 'Eliminar recurso',
-        'show'   => 'Ver recurso',
+        'items'     => 'Recursos',
+        'edit'      => 'Editar recurso',
+        'create'    => 'Crear recurso',
+        'delete'    => 'Eliminar recurso',
+        'show'      => 'Ver recurso',
+        'load_menu' => 'Escanear URLs Urls',
     ],
     'url' => [
         'items'  => 'URLs',

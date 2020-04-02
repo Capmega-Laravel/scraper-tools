@@ -16,6 +16,9 @@ use Sdkconsultoria\Base\Widgets\Information\BreadCrumb;
 @section('content')
 
     @card({{__('scraping::attributes.source.show')}})
+        <div class="form-group">
+            <a href="{{route('source.scan-url', $model->seoname)}}" class="btn btn-primary">@lang('scraping::attributes.source.load_menu')</a>
+        </div>
         <?= Details::generate($model, [
             'id',
             'created_at',
@@ -27,7 +30,8 @@ use Sdkconsultoria\Base\Widgets\Information\BreadCrumb;
             'deleted_at',
             'name',
             'seoname',
-            
+
         ])?>
     @endcard
+
 @endsection
