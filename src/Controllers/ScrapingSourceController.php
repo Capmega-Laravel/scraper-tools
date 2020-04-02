@@ -59,6 +59,7 @@ class ScrapingSourceController extends ResourceController
 
         foreach ($drivers as $key => $driver) {
             $driver = new $driver->driver;
+            dd($driver->getData());
             dd($driver->getUrls());
         }
     }

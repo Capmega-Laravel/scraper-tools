@@ -16,23 +16,29 @@ abstract class BaseDriver
     protected $limit   = 10;
     protected $identifier;
     protected $scraping_url_id;
+    protected $client;
 
     abstract protected function parseData($data);
     abstract protected function getUrls();
 
     function __construct() {
-
+        $this->client = new Client(HttpClient::create(['timeout' => $this->timeout]));
     }
 
     public function getData()
     {
-        $url = ScrapingUrl::where('driver', get_class($this))->first();
-        $this->scraping_url_id = $url->id;
+        $urls = ScrapingUrl::where('driver', get_class($this))->get()->toArray();
 
-        $client = new Client(HttpClient::create(['timeout' => $this->timeout]));
-        $data   = $this->parseData($client->request($this->method, $this->url.$url->url));
+        foreach ($urls as $key => $url) {
+            $this->scraping_url_id = $url['id'];
+            $data = $this->parseData($this->crawl($url['url']));
+            $this->insertData($data);
+        }
+    }
 
-        $this->insertData($data);
+    public function crawl($url = '')
+    {
+        return $this->client->request($this->method, $this->url.$url);
     }
 
 
@@ -68,5 +74,10 @@ abstract class BaseDriver
         $image->save();
 
         Storage::disk('local')->put('scraping/' . $id . '/' . $image->id . '.' . $info['extension'], $contents);
+    }
+
+    protected function processUrl()
+    {
+
     }
 }

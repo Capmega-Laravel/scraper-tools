@@ -21,6 +21,12 @@ class CreateScrapingUrlsTable extends Migration
             $table->unsignedBigInteger('scraping_source_id')->unsigned()->index()->nullable();
             $table->foreign('scraping_source_id')->references('id')->on('scraping_sources')->onDelete('restrict');
 
+            $table->unsignedBigInteger('scraping_category_id')->unsigned()->index()->nullable();
+            $table->foreign('scraping_category_id')->references('id')->on('scraping_categories')->onDelete('restrict');
+
+            $table->unsignedBigInteger('scraping_data_id')->unsigned()->index()->nullable();
+            $table->foreign('scraping_data_id')->references('id')->on('scraping_data')->onDelete('restrict');
+
             $table->string('name', 64)->nullable();
             $table->string('seoname', 64)->nullable();
             $table->string('url')->nullable();
