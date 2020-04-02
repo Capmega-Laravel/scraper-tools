@@ -54,13 +54,18 @@ class ScrapingSourceController extends ResourceController
 
     public function scanUrl($seoname)
     {
+        // $drive = new \App\Scrape\WantToKnow;
+        // $drive->getUrls();
+        // return redirect()->route($this->resource . '.show', $seoname)->with('success', __('scraping::attributes.scan_finish'));
+
         $model    = $this->findModel($seoname);
         $drivers  = ScrapingUrl::select('driver')->where('status', ScrapingUrl::STATUS_ACTIVE)->groupBy('driver')->get();
 
         foreach ($drivers as $key => $driver) {
-            $driver = new $driver->driver;
-            dd($driver->getData());
-            dd($driver->getUrls());
+            $drive = new $driver->driver;
+            $drive->getUrls();
         }
+
+        return redirect()->route($this->resource . '.show', $seoname)->with('success', __('scraping::attributes.scan_finish'));
     }
 }

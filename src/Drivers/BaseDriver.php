@@ -4,7 +4,7 @@ namespace Sdkconsultoria\BlogScraping\Drivers;
 use Storage;
 use Goutte\Client;
 use Symfony\Component\HttpClient\HttpClient;
-use Sdkconsultoria\BlogScraping\Models\{ScrapingData , ScrapingDataKey, ScrapingUrl, ScrapingDataImage};
+use Sdkconsultoria\BlogScraping\Models\{ScrapingData , ScrapingDataKey, ScrapingUrl, ScrapingDataImage, ScrapingCategory, ScrapingSource};
 
 /**
  *
@@ -17,12 +17,15 @@ abstract class BaseDriver
     protected $identifier;
     protected $scraping_url_id;
     protected $client;
+    protected $resource;
 
     abstract protected function parseData($data);
     abstract protected function getUrls();
+    abstract protected function parseUrl($data);
 
     function __construct() {
         $this->client = new Client(HttpClient::create(['timeout' => $this->timeout]));
+        $this->resource = $this->getSource();
     }
 
     public function getData()
@@ -79,5 +82,58 @@ abstract class BaseDriver
     protected function processUrl()
     {
 
+    }
+
+    protected function insertCategory($category_name, $parent_category = false)
+    {
+        $category = ScrapingCategory::where('name', $category_name)->where('scraping_source_id', $this->resource['id']);
+        if ($parent_category) {
+            $category = $category->where('scraping_category_id', $parent_category->id);
+        }
+        $category = $category->first();
+
+        if ($category) {
+            return $category;
+        }
+
+        $category = new ScrapingCategory();
+        if ($parent_category) {
+            $category->scraping_category_id = $parent_category->id;
+        }
+        $category->name               = $category_name;
+        $category->scraping_source_id = $this->resource['id'];
+        $category->save();
+
+        return $category;
+
+    }
+
+    protected function insertUrl($data)
+    {
+        $new_url = substr($data['url'], 1);
+
+        $url = ScrapingUrl::where('url', $new_url)->first();
+        if ($url) {
+            return $url;
+        }
+
+        $url                       = new ScrapingUrl();
+        $url->created_by           = 1;
+        $url->scraping_source_id   = $this->resource['id'];
+        if ($data['category']) {
+            $url->scraping_category_id = $data['category']->id;
+        }
+        $url->name                 = $data['name'];
+        $url->url                  = $data['url'];
+        $url->driver               = static::class;
+        $url->status               = ScrapingUrl::STATUS_ACTIVE;
+        $url->save();
+
+        return $url;
+    }
+
+    protected function getSource()
+    {
+        return ScrapingSource::select('id')->where('name', $this->identifier)->first()->toArray();
     }
 }

@@ -40,4 +40,15 @@ class ScrapingCategory extends ResourceModel
         return array_merge([
         ], $attributes);
     }
+
+    /**
+     * Save item
+     * @param  array  $options [description]
+     * @return [type]          [description]
+     */
+    public function save(array $options = [])
+    {
+        $this->generateSeoname();
+        parent::save($options);
+    }
 }
