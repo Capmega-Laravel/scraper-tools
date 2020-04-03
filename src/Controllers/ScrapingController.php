@@ -36,7 +36,8 @@ class ScrapingController extends Controller
             if ($parent) {
                 $blog->parent_id = $parent_blog->id;
             }
-
+            $blog->sizes = serialize(config('base.images'));
+            $blog->images_types = serialize(config('base.images_types'));
             $blog->status     = Blog::STATUS_ACTIVE;
             $blog->name       = $category;
             $blog->created_by = 1;
@@ -62,7 +63,7 @@ class ScrapingController extends Controller
                 $new_blog->name         = $post;
                 $new_blog->images_types = serialize(config('base.images_types'));
                 $new_blog->sizes        = serialize(config('base.images'));
-                $new_blog->identifier   = $post;
+                // $new_blog->identifier   = $post;
                 $new_blog->blog_id      = $blog->id;
                 $new_blog->description  = $request->description;
                 $new_blog->status       = BlogPost::STATUS_ACTIVE;
