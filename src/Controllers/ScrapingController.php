@@ -64,6 +64,7 @@ class ScrapingController extends Controller
                 $new_blog->images_types = serialize(config('base.images_types'));
                 $new_blog->sizes        = serialize(config('base.images'));
                 // $new_blog->identifier   = $post;
+                $new_blog->language     = config('app.locale');
                 $new_blog->blog_id      = $blog->id;
                 $new_blog->description  = $request->description;
                 $new_blog->status       = BlogPost::STATUS_ACTIVE;
