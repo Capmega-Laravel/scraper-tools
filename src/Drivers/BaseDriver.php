@@ -34,9 +34,12 @@ abstract class BaseDriver
 
         foreach ($urls as $key => $url) {
             $this->scraping_url_id = $url['id'];
-            $data = $this->parseData($this->crawl($url['url']));
-            if ($data) {
-                $this->insertData($data);
+            $blog_post = ScrapingData::where('scraping_url_id', $this->scraping_url_id)->first();
+            if (!$blog_post) {
+                $data = $this->parseData($this->crawl($url['url']));
+                if ($data) {
+                    $this->insertData($data);
+                }
             }
         }
     }
@@ -49,21 +52,25 @@ abstract class BaseDriver
 
     protected function insertData(array $data)
     {
-        $blog_post                   = new ScrapingData();
-        $blog_post->created_by       = 1;
-        $blog_post->status           = ScrapingData::STATUS_ACTIVE;
-        $blog_post->scraping_url_id  = $this->scraping_url_id;
-        $blog_post->name             = $data['name']??'';
-        $blog_post->title            = $data['title']??'';
-        $blog_post->subtitle         = $data['subtitle']??'';
-        $blog_post->meta_author      = $data['meta_author']??'';
-        $blog_post->meta_description = $data['meta_description']??'';
-        $blog_post->description      = $data['description']??'';
-        $blog_post->save();
+        $blog_post = ScrapingData::where('scraping_url_id', $this->scraping_url_id)->first();
 
-        if (isset($data['images'])) {
-            foreach ($data['images'] as $image) {
-                $this->insertImage($image, $blog_post->id);
+        if (!$blog_post) {
+            $blog_post                   = new ScrapingData();
+            $blog_post->created_by       = 1;
+            $blog_post->status           = ScrapingData::STATUS_ACTIVE;
+            $blog_post->scraping_url_id  = $this->scraping_url_id;
+            $blog_post->name             = $data['name']??'';
+            $blog_post->title            = $data['title']??'';
+            $blog_post->subtitle         = $data['subtitle']??'';
+            $blog_post->meta_author      = $data['meta_author']??'';
+            $blog_post->meta_description = $data['meta_description']??'';
+            $blog_post->description      = $data['description']??'';
+            $blog_post->save();
+
+            if (isset($data['images'])) {
+                foreach ($data['images'] as $image) {
+                    $this->insertImage($image, $blog_post->id);
+                }
             }
         }
     }
@@ -71,7 +78,7 @@ abstract class BaseDriver
     protected function insertImage($image, $id)
     {
         $info     = pathinfo($image['url']);
-        $contents = file_get_contents($image['url']);
+        $contents = file_get_contents(str_replace(' ', '%20', $image['url']));
 
         if (strlen($info['extension']) < 5) {
             $image                   = new ScrapingDataImage();
