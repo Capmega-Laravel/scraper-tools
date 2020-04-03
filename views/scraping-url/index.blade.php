@@ -28,7 +28,21 @@ use Sdkconsultoria\Base\Widgets\Messages\Alert;
         'key' => 'seoname',
         'attributes' => [
             'created_at',
-            'scraping_source_id',
+            [
+                'attribute' => 'scraping_source_id',
+                'value' => function($model){
+                    return $model->source->name;
+                }
+            ],
+            [
+                'attribute' => 'scraping_category_id',
+                'value' => function($model){
+                    if ($model->category) {
+                        return $model->category->name;
+                    }
+                    return '';
+                }
+            ],
             'name',
             'url',
             'driver',

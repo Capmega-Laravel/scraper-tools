@@ -27,20 +27,10 @@ use Sdkconsultoria\Base\Widgets\Messages\Alert;
         'route' => 'target',
         'key' => 'seoname',
         'attributes' => [
-            'id',
             'created_at',
-            'updated_at',
-            'status',
-            'updated_by',
-            'deleted_by',
-            'deleted_reason',
-            'deleted_at',
             'name',
-            'seoname',
-            'api_key',
             'domain',
-            'entry',
-            
+            'api_key',
         ]
     ])?>
     @endcard

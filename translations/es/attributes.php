@@ -21,6 +21,7 @@ return [
         'scraping_source_id' => 'Recurso',
         'url'    => 'URL',
         'driver' => 'Driver',
+        'scraping_category_id' => 'Categoría',
     ],
     'target' => [
         'items'  => 'Items Destinos',

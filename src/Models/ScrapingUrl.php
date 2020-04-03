@@ -33,6 +33,7 @@ class ScrapingUrl extends ResourceModel
             'scraping_source_id' => __('scraping::attributes.url.scraping_source_id'),
             'url' => __('scraping::attributes.url.url'),
             'driver' => __('scraping::attributes.url.driver'),
+            'scraping_category_id' => __('scraping::attributes.url.scraping_category_id'),
         ]);
     }
 
@@ -62,6 +63,11 @@ class ScrapingUrl extends ResourceModel
     public function category()
     {
         return $this->belongsTo('Sdkconsultoria\BlogScraping\Models\ScrapingCategory', 'scraping_category_id', 'id');
+    }
+
+    public function source()
+    {
+        return $this->belongsTo('Sdkconsultoria\BlogScraping\Models\ScrapingSource', 'scraping_source_id', 'id');
     }
 
     public function data()
