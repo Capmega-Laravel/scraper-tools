@@ -51,4 +51,9 @@ class ScrapingCategory extends ResourceModel
         $this->generateSeoname();
         parent::save($options);
     }
+
+    public function parent()
+    {
+        return $this->belongsTo('Sdkconsultoria\BlogScraping\Models\ScrapingCategory', 'scraping_category_id', 'id');
+    }
 }

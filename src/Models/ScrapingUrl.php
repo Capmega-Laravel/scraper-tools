@@ -58,4 +58,14 @@ class ScrapingUrl extends ResourceModel
         $this->generateSeoname();
         parent::save($options);
     }
+
+    public function category()
+    {
+        return $this->belongsTo('Sdkconsultoria\BlogScraping\Models\ScrapingCategory', 'scraping_category_id', 'id');
+    }
+
+    public function data()
+    {
+        return $this->hasOne('Sdkconsultoria\BlogScraping\Models\ScrapingData', 'scraping_url_id', 'id');
+    }
 }

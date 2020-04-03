@@ -40,4 +40,9 @@ class ScrapingData extends ResourceModel
         return array_merge([
         ], $attributes);
     }
+
+    public function images()
+    {
+        return $this->hasMany('Sdkconsultoria\BlogScraping\Models\ScrapingDataImage', 'scraping_data_id', 'id');
+    }
 }

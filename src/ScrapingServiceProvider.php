@@ -27,6 +27,9 @@ class ScrapingServiceProvider extends ServiceProvider
 
         $this->commands([
             \Sdkconsultoria\BlogScraping\Commands\Scraping::class,
+            \Sdkconsultoria\BlogScraping\Commands\SendCategories::class,
+            \Sdkconsultoria\BlogScraping\Commands\SendBlogs::class,
+            \Sdkconsultoria\BlogScraping\Commands\TestApi::class,
 
         ]);
     }

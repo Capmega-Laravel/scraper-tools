@@ -35,7 +35,9 @@ abstract class BaseDriver
         foreach ($urls as $key => $url) {
             $this->scraping_url_id = $url['id'];
             $data = $this->parseData($this->crawl($url['url']));
-            $this->insertData($data);
+            if ($data) {
+                $this->insertData($data);
+            }
         }
     }
 
@@ -81,7 +83,7 @@ abstract class BaseDriver
 
             Storage::disk('local')->put('scraping/' . $id . '/' . $image->id . '.' . $info['extension'], $contents);
         }
-        }
+    }
 
     protected function processUrl()
     {
