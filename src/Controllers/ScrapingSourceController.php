@@ -70,6 +70,7 @@ class ScrapingSourceController extends ResourceController
     {
         foreach ($this->getDrivers($seoname) as $key => $driver) {
             $drive = new $driver->driver;
+            $drive = $drive->test('bankingfactsinformationcorruption');
             $drive->getData();
         }
 

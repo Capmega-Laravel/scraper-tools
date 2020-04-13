@@ -23,6 +23,7 @@ abstract class BaseDriver
     abstract protected function getUrls();
     abstract protected function parseUrl($data);
     abstract protected function clearData($data);
+    abstract protected function followUrl($data);
 
     function __construct() {
         $this->client = new Client(HttpClient::create(['timeout' => $this->timeout]));
