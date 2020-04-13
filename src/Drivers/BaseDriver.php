@@ -22,6 +22,7 @@ abstract class BaseDriver
     abstract protected function parseData($data);
     abstract protected function getUrls();
     abstract protected function parseUrl($data);
+    abstract protected function clearData($data);
 
     function __construct() {
         $this->client = new Client(HttpClient::create(['timeout' => $this->timeout]));
@@ -35,6 +36,7 @@ abstract class BaseDriver
         foreach ($urls as $key => $url) {
             $this->scraping_url_id = $url['id'];
             $blog_post = ScrapingData::where('scraping_url_id', $this->scraping_url_id)->first();
+
             if (!$blog_post) {
                 $data = $this->parseData($this->crawl($url['url']));
                 if ($data) {
@@ -148,5 +150,11 @@ abstract class BaseDriver
     protected function getSource()
     {
         return ScrapingSource::select('id')->where('name', $this->identifier)->first()->toArray();
+    }
+
+    protected function clearPhp($data)
+    {
+        $data = preg_replace('/<!--(.|\s)*?-->/', '', $data);
+        return preg_replace(array('/<(\?|\%)\=?(php)?/', '/(\%|\?)>/'), array('',''), $data);
     }
 }
