@@ -48,8 +48,10 @@ class FixUrls extends Command
             foreach ($matches as $key => $match) {
                 if (strpos($match, ':code=') !== 0) {
                     $blog_link = BlogPost::where('identifier', 'like', '%'.$match)->where('status', BlogPost::STATUS_ACTIVE)->first();
-                    $blog->description = str_replace(':code='.$match, $blog_link->getUrl(), $blog->description);
-                    $blog->save();
+                    if ($blog_link) {
+                        $blog->description = str_replace(':code='.$match, $blog_link->getUrl(), $blog->description);
+                        $blog->save();
+                    }
                 }
             }
             // dd($matches);
