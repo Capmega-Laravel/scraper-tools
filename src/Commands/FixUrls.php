@@ -42,9 +42,10 @@ class FixUrls extends Command
         $pattern = '/:code=([a-z-0-9A-Z\/_]+)/';
 
         foreach ($blogs as $key => $blog) {
-            preg_match($pattern, $blog->description, $matches);
+            // preg_match($pattern, $blog->description, $matches);
+            preg_match_all($pattern, $blog->description, $matches);
 
-            foreach ($matches as $key => $match) {
+            foreach ($matches[1]??[] as $key => $match) {
                 if (strpos($match, ':code=') !== 0) {
                     $blog_link = BlogPost::where('identifier', 'like', '%'.$match)->where('status', BlogPost::STATUS_ACTIVE)->first();
                     if ($blog_link) {

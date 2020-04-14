@@ -42,9 +42,10 @@ class FollowUrls extends Command
         $pattern = '/:code=([a-z-0-9A-Z\/_]+)/';
 
         foreach ($blogs as $key => $blog) {
-            preg_match($pattern, $blog->description, $matches);
+            preg_match_all($pattern, $blog->description, $matches);
+            $this->info('scaneando data: ' . $blog->scraping_url_id);
 
-            foreach ($matches as $key => $match) {
+            foreach ($matches[1]??[] as $key => $match) {
                 if (strpos($match, ':code=') !== 0) {
                     $blog_link = ScrapingUrl::where('url', 'like', '%'.$match)->where('status', ScrapingUrl::STATUS_ACTIVE)->first();
                     if (!$blog_link) {
