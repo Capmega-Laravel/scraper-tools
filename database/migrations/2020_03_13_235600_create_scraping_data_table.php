@@ -25,9 +25,9 @@ class CreateScrapingDataTable extends Migration
             $table->foreign('scraping_data_id')->references('id')->on('scraping_data')->onDelete('restrict');
 
             $table->string('version')->nullable();
-            $table->string('identifier', 64)->unique()->nullable();
-            $table->string('name', 64)->nullable();
-            $table->string('seoname', 64)->nullable();
+            $table->string('identifier', 200)->unique()->nullable();
+            $table->string('name', 200)->nullable();
+            $table->string('seoname', 200)->nullable();
             $table->string('title', 120)->nullable();
             $table->string('subtitle')->nullable();
             $table->longText('description')->nullable();
