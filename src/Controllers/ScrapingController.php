@@ -57,19 +57,20 @@ class ScrapingController extends Controller
 
         $blog = Blog::where('name', $category)->first();
         if ($blog) {
-            $new_blog = BlogPost::where('name', $post)->where('blog_id', $blog->id)->first();
+            $new_blog = BlogPost::where('name', $post)->where('blog_id', $blog->id)->orWhere('identifier', $request->url)->first();
             if (!$new_blog) {
                 $new_blog = new BlogPost();
                 $new_blog->name         = $post;
                 $new_blog->images_types = serialize(config('base.images_types'));
                 $new_blog->sizes        = serialize(config('base.images'));
-                // $new_blog->identifier   = $post;
+                $new_blog->identifier   = $request->url;
                 $new_blog->language     = config('app.locale');
                 $new_blog->blog_id      = $blog->id;
                 $new_blog->description  = $request->description;
                 $new_blog->short_description  = substr(strip_tags($request->description), 0, 500);
                 $new_blog->status       = BlogPost::STATUS_ACTIVE;
                 $new_blog->created_by   = 1;
+                $new_blog->published_at = date('Y-m-d');
                 $new_blog->save();
 
                 $this->saveImages($new_blog, $request);
@@ -97,7 +98,12 @@ class ScrapingController extends Controller
                 $image->blog_post_id = $model->id;
                 $image->save();
                 $file->storeAs('blogs/' . $model->id, $image->id . '.' . $file->extension(), 'public');
-                $image->convertImage();
+                try {
+                    $image->convertImage();
+                } catch (\Exception $e) {
+
+                }
+
             }
         }
     }

@@ -57,10 +57,15 @@ class SendBlogs extends Command
                     $array_images = [];
                     foreach ($images as $key => $image) {
                         $file_route = storage_path('app/scraping/') . $data->id . '/' . $image->id . '.' . $image->extension;
-                        $array_images[] = [
-                            'name'     => 'images[]',
-                            'contents' => fopen($file_route, 'r')
-                        ];
+                        try {
+                            $file_data = fopen($file_route, 'r');
+                            $array_images[] = [
+                                'name'     => 'images[]',
+                                'contents' => $file_data
+                            ];
+                        } catch (\Exception $e) {
+
+                        }
                     }
 
                     if ($data) {
@@ -73,6 +78,10 @@ class SendBlogs extends Command
                                 [
                                     'name'     => 'category',
                                     'contents' => $category->name
+                                ],
+                                [
+                                    'name'     => 'url',
+                                    'contents' => $url->url
                                 ],
                                 [
                                     'name'     => 'description',

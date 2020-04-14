@@ -30,6 +30,7 @@ class ScrapingServiceProvider extends ServiceProvider
             \Sdkconsultoria\BlogScraping\Commands\SendCategories::class,
             \Sdkconsultoria\BlogScraping\Commands\SendBlogs::class,
             \Sdkconsultoria\BlogScraping\Commands\TestApi::class,
+            \Sdkconsultoria\BlogScraping\Commands\FixUrls::class,
 
         ]);
     }
