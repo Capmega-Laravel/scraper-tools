@@ -40,7 +40,6 @@ class FixUrls extends Command
     {
         $blogs = BlogPost::where('status', BlogPost::STATUS_ACTIVE)->get();
         $pattern = '/:code=([a-z-0-9A-Z\/_]+)/';
-        $replacement = 'https://conspiracytheory.net/${1}';
 
         foreach ($blogs as $key => $blog) {
             preg_match($pattern, $blog->description, $matches);
@@ -51,11 +50,12 @@ class FixUrls extends Command
                     if ($blog_link) {
                         $blog->description = str_replace(':code='.$match, $blog_link->getUrl(), $blog->description);
                         $blog->save();
+                    }else{
+                        $this->info('No existe el blog: ' . $match);
                     }
                 }
             }
-            // dd($matches);
-            // dd(preg_replace($pattern, $replacement, $blog->description));
+            // dump($matches);
         }
     }
 }

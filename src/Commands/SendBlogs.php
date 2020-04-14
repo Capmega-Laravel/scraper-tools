@@ -53,7 +53,7 @@ class SendBlogs extends Command
             if ($category) {
                 $data   = $url->data;
                 if ($data) {
-                    $images = $data->images;
+                    $images = $data->images()->limit(20)->get();
                     $array_images = [];
                     foreach ($images as $key => $image) {
                         $file_route = storage_path('app/scraping/') . $data->id . '/' . $image->id . '.' . $image->extension;
