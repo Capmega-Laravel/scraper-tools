@@ -11,5 +11,11 @@ return [
     'drivers' => [
         'Sdkconsultoria\BlogScraping\Drivers\ExampleDriver' => 'ExampleDriver'
     ],
-    'api_key' => ''
+    'api_key' => '',
+    'spinner' => [
+        'spinrewriter' => [
+            'api_key' => '',
+            'email' => '',
+            ]
+    ]
  ];

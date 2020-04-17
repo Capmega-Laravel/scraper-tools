@@ -4,6 +4,7 @@ namespace Sdkconsultoria\BlogScraping\Controllers;
 use Illuminate\Http\Request;
 use Sdkconsultoria\Base\Controllers\Controller;
 use Sdkconsultoria\BlogScraping\Drivers\ExampleDriver;
+use Sdkconsultoria\BlogScraping\Spinner\SpinRewriter;
 use Sdkconsultoria\Blog\Models\{Blog, BlogPost, BlogImage};
 
 /**
@@ -13,6 +14,16 @@ class ScrapingController extends Controller
 {
     public function index()
     {
+        $post = \Sdkconsultoria\BlogScraping\Models\ScrapingData::where('status', \Sdkconsultoria\BlogScraping\Models\ScrapingData::STATUS_ACTIVE)->first();
+
+        $spinner = new SpinRewriter();
+        $result = $spinner->spin($post->description);
+        echo htmlentities($post->description);
+        echo $post->description;
+        dump('gg');
+        echo htmlentities($result);
+        echo $result;
+        dd('gg');
         $example = new ExampleDriver();
         $example->getData();
     }
