@@ -9,6 +9,7 @@ use GuzzleHttp\Client;
  */
 class SpinRewriter
 {
+    public $protected_terms;
     protected $url = 'https://www.spinrewriter.com/action/api';
     protected $timeout = 150;
     protected $client;
@@ -30,7 +31,7 @@ class SpinRewriter
                 'api_key'              => config('scraping.spinner.spinrewriter.api_key'),
                 'action'               => 'unique_variation',
                 'text'                 => $text,
-                'protected_terms'      => '</h1>\n</span>',
+                'protected_terms'      => $this->protected_terms,
                 'auto_protected_terms' => 'true',
                 'confidence_level'     => 'high',
                 'auto_sentences'       => 'false',
