@@ -16,16 +16,34 @@ class ScrapingController extends Controller
     {
         $post = \Sdkconsultoria\BlogScraping\Models\ScrapingData::where('status', \Sdkconsultoria\BlogScraping\Models\ScrapingData::STATUS_ACTIVE)->first();
 
+        $text = $post->getDataString();
         $spinner = new SpinRewriter();
-        $result = $spinner->spin($post->description);
-        echo htmlentities($post->description);
-        echo $post->description;
-        dump('gg');
-        echo htmlentities($result);
-        echo $result;
-        dd('gg');
-        $example = new ExampleDriver();
-        $example->getData();
+        $spinner->protected_terms = $post->protected_terms;
+        $post->string_spin = $spinner->spin($text);
+        $post->getDataHtml($post->html);
+        // dump($text);
+        // echo ($post->description);
+        // dump($post->string_spin);
+        // echo ($post->html_spin);
+        dd('');
+
+        // // echo($post->description);
+        // // dump('');
+        // // echo($post->html_spin);
+        // // dd('');
+        //
+        // $spinner = new SpinRewriter();
+        // $spinner->protected_terms = $post->protected_terms;
+        // $post->string_spin = $spinner->spin($post->getDataString());
+        //
+        // // echo htmlentities($post->description);
+        // // echo $post->description;
+        // dd($result);
+        // echo htmlentities($result);
+        // echo $result;
+        // dd('gg');
+        // $example = new ExampleDriver();
+        // $example->getData();
     }
 
     public function catchCategory(Request $request)

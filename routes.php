@@ -12,5 +12,6 @@ Route::prefix('admin/scraping')
         Route::get('source/{seoname}/scan', 'ScrapingSourceController@scanMenu')->name('source.scan-menu');
         Route::get('source/{seoname}/scan-url', 'ScrapingSourceController@scanUrls')->name('source.scan-urls');
         Route::get('test', 'ScrapingController@index')->name('test');
+        Route::get('url/spin/{id}/{lvl?}', 'ScrapingUrlController@spin')->name('url.spin');
     });
 });

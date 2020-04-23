@@ -16,6 +16,9 @@ use Sdkconsultoria\Base\Widgets\Information\BreadCrumb;
 @section('content')
 
     @card({{__('scraping::attributes.url.show')}})
+          <div class="form-group">
+              <a href="{{route('url.spin', $model->seoname)}}" class="btn btn-primary"> @lang('scraping::attributes.url.spin') </a>
+          </div>
         <?= Details::generate($model, [
             'id',
             'created_at',
@@ -30,7 +33,7 @@ use Sdkconsultoria\Base\Widgets\Information\BreadCrumb;
             'seoname',
             'url',
             'driver',
-            
+
         ])?>
     @endcard
 @endsection

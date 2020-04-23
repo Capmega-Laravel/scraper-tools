@@ -4,6 +4,7 @@ namespace Sdkconsultoria\BlogScraping\Models;
 
 use Sdkconsultoria\Base\Models\ResourceModel;
 use Symfony\Component\DomCrawler\Crawler;
+use Sdkconsultoria\BlogScraping\Spinner\SpinRewriter;
 
 class ScrapingData extends ResourceModel
 {
@@ -54,7 +55,7 @@ class ScrapingData extends ResourceModel
         return $this->hasMany('Sdkconsultoria\BlogScraping\Models\ScrapingDataImage', 'scraping_data_id', 'id');
     }
 
-    public function getDataString()
+    private function getDataString()
     {
         $this->parseString($this->getDataArray(), $this->string_origin);
 
@@ -107,12 +108,12 @@ class ScrapingData extends ResourceModel
         return $item['text'].' ';
     }
 
-    public function getDataArray()
+    private function getDataArray()
     {
         $this->html = [];
 
         $crawler = new Crawler($this->description);
-        $crawler = $crawler->filter('div')->first();
+        $crawler = $crawler->first();
 
         foreach ($crawler->children() as $domElement) {
             $this->html[] = [
@@ -127,7 +128,7 @@ class ScrapingData extends ResourceModel
         return  $this->html;
     }
 
-    public function getDataHtml($array)
+    private function getDataHtml($array)
     {
         $count_tags = [];
 
@@ -168,17 +169,28 @@ class ScrapingData extends ResourceModel
 
         foreach ($elements as $domElement) {
             if ($domElement->nodeName != '#text') {
-                $html[] = [
-                    'type'       => $domElement->nodeName,
-                    'attributes' => $this->parseAttr($domElement->attributes??[]),
-                    'childs'     => $this->parse($domElement->childNodes),
-                    'text'       => $this->parseText($domElement),
-                    'path'       => $domElement->getNodePath(),
-                ];
+                if ($this->getOneAtrr($domElement->attributes??[], 'class') != 'hidden-xs') {
+                    $html[] = [
+                        'type'       => $domElement->nodeName,
+                        'attributes' => $this->parseAttr($domElement->attributes??[]),
+                        'childs'     => $this->parse($domElement->childNodes),
+                        'text'       => $this->parseText($domElement),
+                        'path'       => $domElement->getNodePath(),
+                    ];
+                }
             }
         }
 
         return $html;
+    }
+
+    private function getOneAtrr($attributes, $attr)
+    {
+        foreach ($attributes as $key => $attribute) {
+            if ($attribute->nodeName == $attr) {
+                return $attribute->nodeValue;
+            }
+        }
     }
 
     private function parseAttr($attributes)
@@ -199,6 +211,7 @@ class ScrapingData extends ResourceModel
     {
         if ($domElement->nodeName == 'p' ||
             $domElement->nodeName == 'span' ||
+            $domElement->nodeName == 'li' ||
             // $domElement->nodeName == 'label' ||
             // $domElement->nodeName == 'em' ||
             // $domElement->nodeName == 'mark' ||
@@ -216,5 +229,21 @@ class ScrapingData extends ResourceModel
         }
 
         return '';
+    }
+
+    public function spindata($lvl = 'high')
+    {
+        // dump($this->description);
+        // dd($this->getDataString());
+        if (!$this->spin || $lvl != $this->spin_lvl) {
+            $text = $this->getDataString();
+            $spinner = new SpinRewriter();
+            $spinner->protected_terms = $this->protected_terms;
+            $this->string_spin = $spinner->spin($text);
+            $this->getDataHtml($this->html);
+            $this->spin = $this->html_spin;
+            $this->spin_lvl = $lvl;
+            $this->save();
+        }
     }
 }

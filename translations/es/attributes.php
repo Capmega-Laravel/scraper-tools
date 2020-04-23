@@ -22,6 +22,9 @@ return [
         'url'    => 'URL',
         'driver' => 'Driver',
         'scraping_category_id' => 'Categoría',
+        'spin' => 'Spin',
+        'content_original' => 'Contenido Original',
+        'content_spined' => 'Contenido Spineado',
     ],
     'target' => [
         'items'  => 'Items Destinos',

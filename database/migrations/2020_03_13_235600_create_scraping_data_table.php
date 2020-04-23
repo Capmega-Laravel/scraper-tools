@@ -31,6 +31,8 @@ class CreateScrapingDataTable extends Migration
             $table->string('title', 120)->nullable();
             $table->string('subtitle')->nullable();
             $table->longText('description')->nullable();
+            $table->longText('spin')->nullable();
+            $table->string('spin_lvl', 45)->nullable();
             $table->string('meta_author', 120)->nullable();
             $table->string('meta_description', 120)->nullable();
             $table->string('meta_keywords', 120)->nullable();

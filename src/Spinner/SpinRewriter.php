@@ -13,6 +13,7 @@ class SpinRewriter
     protected $url = 'https://www.spinrewriter.com/action/api';
     protected $timeout = 150;
     protected $client;
+    protected $lvl;
 
     function __construct()
     {

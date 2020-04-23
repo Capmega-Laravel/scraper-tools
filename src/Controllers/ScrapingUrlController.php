@@ -51,4 +51,18 @@ class ScrapingUrlController extends ResourceController
 
         return redirect()->route($this->resource . '.index')->with('success', __('base::messages.saved'));
     }
+
+    /**
+     */
+    public function spin($id, $lvl = 'hight')
+    {
+        $model = $this->findModel($id);
+        $post  = $model->data;
+        $post->spindata($lvl);
+
+        return view($this->view . '.spin', [
+            'model' => $model,
+            'post' => $post
+        ]);
+    }
 }
