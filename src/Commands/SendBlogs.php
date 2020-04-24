@@ -69,27 +69,33 @@ class SendBlogs extends Command
                     }
 
                     if ($data) {
-                        $response = $client->request('POST', 'catch-post', [
-                            'multipart' => array_merge([
-                                [
-                                    'name'     => 'name',
-                                    'contents' => $url->name
-                                ],
-                                [
-                                    'name'     => 'category',
-                                    'contents' => $category->name
-                                ],
-                                [
-                                    'name'     => 'url',
-                                    'contents' => $url->url
-                                ],
-                                [
-                                    'name'     => 'description',
-                                    'contents' => $data->description
-                                ],
-                            ], $array_images)
-                        ]);
-                        dump($response->getBody()->getContents());
+                        if ($data->spin_lvl) {
+                            $response = $client->request('POST', 'catch-post', [
+                                'multipart' => array_merge([
+                                    [
+                                        'name'     => 'name',
+                                        'contents' => $url->name
+                                    ],
+                                    [
+                                        'name'     => 'category',
+                                        'contents' => $category->name
+                                    ],
+                                    [
+                                        'name'     => 'url',
+                                        'contents' => $url->url
+                                    ],
+                                    [
+                                        'name'     => 'description',
+                                        'contents' => $data->spin
+                                    ],
+                                    [
+                                        'name'     => 'spin_lvl',
+                                        'contents' => $data->spin_lvl
+                                    ],
+                                ], $array_images)
+                            ]);
+                            dump($response->getBody()->getContents());
+                        }
                     }
                 }
             }

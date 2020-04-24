@@ -96,11 +96,13 @@ class ScrapingController extends Controller
                 $new_blog->language     = config('app.locale');
                 $new_blog->blog_id      = $blog->id;
                 $new_blog->description  = $request->description;
+
                 // $new_blog->short_description  = substr(strip_tags($request->description), 0, 300);
                 $new_blog->status       = BlogPost::STATUS_ACTIVE;
                 $new_blog->created_by   = 1;
                 $new_blog->published_at = date('Y-m-d');
                 $new_blog->save();
+                $new_blog->saveKey('Spin level', $request->spin_lvl);
 
                 $this->saveImages($new_blog, $request);
             }
