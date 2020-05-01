@@ -18,6 +18,7 @@ abstract class BaseDriver
     protected $scraping_url_id;
     protected $client;
     protected $resource;
+    protected $sleep = false;
 
     abstract protected function parseData($data);
     abstract protected function getUrls();
@@ -70,10 +71,20 @@ abstract class BaseDriver
             $blog_post->description      = $data['description']??'';
             $blog_post->save();
 
+            if (isset($data['extra_keys'])) {
+                foreach ($data['extra_keys'] as $key => $value) {
+                    $blog_post->saveKey($key, $value);
+                }
+            }
+
             if (isset($data['images'])) {
                 foreach ($data['images'] as $image) {
                     $this->insertImage($image, $blog_post->id);
                 }
+            }
+
+            if ($this->sleep) {
+                sleep($this->sleep);
             }
         }
     }
@@ -82,16 +93,17 @@ abstract class BaseDriver
     {
         $info     = pathinfo($image['url']);
         $contents = file_get_contents(str_replace(' ', '%20', $image['url']));
+        if (count($info)) {
+            if (strlen($info['extension']??'xxxxxxxxx') < 5) {
+                $image                   = new ScrapingDataImage();
+                $image->scraping_data_id = $id;
+                $image->extension        = $info['extension'];
+                $image->alt              = $image['alt'];
+                $image->name             = $info['filename'];
+                $image->save();
 
-        if (strlen($info['extension']) < 5) {
-            $image                   = new ScrapingDataImage();
-            $image->scraping_data_id = $id;
-            $image->extension        = $info['extension'];
-            $image->alt              = $image['alt'];
-            $image->name             = $info['filename'];
-            $image->save();
-
-            Storage::disk('local')->put('scraping/' . $id . '/' . $image->id . '.' . $info['extension'], $contents);
+                Storage::disk('local')->put('scraping/' . $id . '/' . $image->id . '.' . $info['extension'], $contents);
+            }
         }
     }
 
@@ -126,9 +138,7 @@ abstract class BaseDriver
 
     protected function insertUrl($data)
     {
-        $new_url = substr($data['url'], 1);
-
-        $url = ScrapingUrl::where('url', $new_url)->first();
+        $url = ScrapingUrl::where('url', $data['url'])->first();
         if ($url) {
             return $url;
         }

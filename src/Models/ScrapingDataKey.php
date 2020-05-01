@@ -40,4 +40,11 @@ class ScrapingDataKey extends ResourceModel
         return array_merge([
         ], $attributes);
     }
+
+    public function save(array $options = [])
+    {
+        $this->generateSeoname('name', 'seoname', false);
+        $this->generateSeoname('value', 'seovalue', false);
+        parent::save($options);
+    }
 }

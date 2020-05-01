@@ -44,7 +44,7 @@ class Spin extends Command
         foreach ($posts as $key => $post) {
             if ($post->description) {
                 $this->info("Spineando Posts {$post->id}");
-                $post->spindata('medium');
+                $post->spindata('high');
                 sleep(10);
             }
         }

@@ -54,10 +54,6 @@ class ScrapingSourceController extends ResourceController
 
     public function scanMenu($seoname)
     {
-        // $drive = new \App\Scrape\WantToKnow;
-        // $drive->getUrls();
-        // return redirect()->route($this->resource . '.show', $seoname)->with('success', __('scraping::attributes.scan_finish'));
-
         foreach ($this->getDrivers($seoname) as $key => $driver) {
             $drive = new $driver->driver;
             $drive->getUrls();
@@ -70,7 +66,6 @@ class ScrapingSourceController extends ResourceController
     {
         foreach ($this->getDrivers($seoname) as $key => $driver) {
             $drive = new $driver->driver;
-            // $drive = $drive->test('bankingfactsinformationcorruption');
             $drive->getData();
         }
 
@@ -80,6 +75,6 @@ class ScrapingSourceController extends ResourceController
     private function getDrivers($seoname)
     {
         $model = $this->findModel($seoname);
-        return ScrapingUrl::select('driver')->where('status', ScrapingUrl::STATUS_ACTIVE)->groupBy('driver')->get();
+        return ScrapingUrl::select('driver')->where('scraping_source_id', $model->id)->where('status', ScrapingUrl::STATUS_ACTIVE)->groupBy('driver')->get();
     }
 }

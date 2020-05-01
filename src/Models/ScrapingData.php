@@ -5,6 +5,7 @@ namespace Sdkconsultoria\BlogScraping\Models;
 use Sdkconsultoria\Base\Models\ResourceModel;
 use Symfony\Component\DomCrawler\Crawler;
 use Sdkconsultoria\BlogScraping\Spinner\SpinRewriter;
+use Sdkconsultoria\BlogScraping\Models\ScrapingDataKey;
 
 class ScrapingData extends ResourceModel
 {
@@ -246,4 +247,21 @@ class ScrapingData extends ResourceModel
             $this->save();
         }
     }
+
+   public function saveKey($label, $value)
+   {
+       $key =  ScrapingDataKey::where('scraping_data_id', $this->id)->where('name', $label)->first();
+
+       if ($key) {
+           $key->value = $value;
+       }else{
+           $key                    = new ScrapingDataKey();
+           $key->scraping_data_id  = $this->id;
+           $key->created_by        = auth()->user()?auth()->user()->id:1;
+           $key->name              = $label;
+           $key->value             = $value;
+       }
+
+       $key->save();
+   }
 }
