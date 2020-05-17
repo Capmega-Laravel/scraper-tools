@@ -1,14 +1,14 @@
 {
-    "name": "sdkconsultoria/blog-scraping",
+    "name": "capmega/blog-scraping",
     "type": "library",
-    "description": "Integra sistema de scraping para blogs",
+    "description": "Sistema de Scraping Genérico",
     "keywords": ["laravel","scraping"],
     "license": "MIT",
     "authors": [
         {
             "name": "Ismael Haro",
-            "email": "camilo@sdkconsultoria.com",
-            "homepage": "https://sdkconsultoria.com",
+            "email": "isma@capmega.com",
+            "homepage": "https://capmega.com",
             "role": "Developer"
         }
     ],
