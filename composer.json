@@ -19,13 +19,13 @@
     },
     "autoload": {
         "psr-4": {
-            "Sdkconsultoria\\BlogScraping\\": "src/"
+            "Capmega\\BlogScraping\\": "src/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Sdkconsultoria\\BlogScraping\\ScrapingServiceProvider"
+                "Capmega\\BlogScraping\\ScrapingServiceProvider"
             ]
         }
     }

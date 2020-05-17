@@ -1,6 +1,6 @@
 <?php
 
-namespace Sdkconsultoria\BlogScraping\Models;
+namespace Capmega\BlogScraping\Models;
 
 use Sdkconsultoria\Base\Models\ResourceModel;
 

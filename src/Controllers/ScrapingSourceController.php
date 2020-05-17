@@ -1,15 +1,15 @@
 <?php
-namespace Sdkconsultoria\BlogScraping\Controllers;
+namespace Capmega\BlogScraping\Controllers;
 
 use Illuminate\Http\Request;
 use Sdkconsultoria\Base\Controllers\ResourceController;
-use  Sdkconsultoria\BlogScraping\Models\ScrapingUrl;
+use  Capmega\BlogScraping\Models\ScrapingUrl;
 /**
  * [class description]
  */
 class ScrapingSourceController extends ResourceController
 {
-    protected $model    = '\Sdkconsultoria\BlogScraping\Models\ScrapingSource';
+    protected $model    = '\Capmega\BlogScraping\Models\ScrapingSource';
     protected $view     = 'scraping::scraping-source';
     protected $resource = 'source';
 

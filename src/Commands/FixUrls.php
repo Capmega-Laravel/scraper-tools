@@ -1,6 +1,6 @@
 <?php
 
-namespace Sdkconsultoria\BlogScraping\Commands;
+namespace Capmega\BlogScraping\Commands;
 
 use Illuminate\Console\Command;
 use Sdkconsultoria\Blog\Models\BlogPost;

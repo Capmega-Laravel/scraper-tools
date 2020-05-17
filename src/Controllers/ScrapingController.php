@@ -1,10 +1,10 @@
 <?php
-namespace Sdkconsultoria\BlogScraping\Controllers;
+namespace Capmega\BlogScraping\Controllers;
 
 use Illuminate\Http\Request;
 use Sdkconsultoria\Base\Controllers\Controller;
-use Sdkconsultoria\BlogScraping\Drivers\ExampleDriver;
-use Sdkconsultoria\BlogScraping\Spinner\SpinRewriter;
+use Capmega\BlogScraping\Drivers\ExampleDriver;
+use Capmega\BlogScraping\Spinner\SpinRewriter;
 use Sdkconsultoria\Blog\Models\{Blog, BlogPost, BlogImage};
 
 /**
@@ -14,7 +14,7 @@ class ScrapingController extends Controller
 {
     public function index()
     {
-        $post = \Sdkconsultoria\BlogScraping\Models\ScrapingData::where('status', \Sdkconsultoria\BlogScraping\Models\ScrapingData::STATUS_ACTIVE)->first();
+        $post = \Capmega\BlogScraping\Models\ScrapingData::where('status', \Capmega\BlogScraping\Models\ScrapingData::STATUS_ACTIVE)->first();
 
         $text = $post->getDataString();
         $spinner = new SpinRewriter();

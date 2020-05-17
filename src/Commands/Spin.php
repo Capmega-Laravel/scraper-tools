@@ -1,9 +1,9 @@
 <?php
 
-namespace Sdkconsultoria\BlogScraping\Commands;
+namespace Capmega\BlogScraping\Commands;
 
 use Illuminate\Console\Command;
-use Sdkconsultoria\BlogScraping\Models\ScrapingData;
+use Capmega\BlogScraping\Models\ScrapingData;
 
 class Spin extends Command
 {

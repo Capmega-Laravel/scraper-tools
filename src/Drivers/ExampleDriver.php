@@ -1,8 +1,8 @@
 <?php
-namespace Sdkconsultoria\BlogScraping\Drivers;
+namespace Capmega\BlogScraping\Drivers;
 
 use Goutte\Client;
-use Sdkconsultoria\BlogScraping\Drivers\BaseDriver;
+use Capmega\BlogScraping\Drivers\BaseDriver;
 
 /**
  *

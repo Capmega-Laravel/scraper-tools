@@ -9,7 +9,7 @@ return [
      |
      */
     'drivers' => [
-        'Sdkconsultoria\BlogScraping\Drivers\ExampleDriver' => 'ExampleDriver'
+        'Capmega\BlogScraping\Drivers\ExampleDriver' => 'ExampleDriver'
     ],
     'api_key' => '',
     'spinner' => [

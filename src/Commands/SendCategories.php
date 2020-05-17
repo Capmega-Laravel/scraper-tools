@@ -1,10 +1,10 @@
 <?php
 
-namespace Sdkconsultoria\BlogScraping\Commands;
+namespace Capmega\BlogScraping\Commands;
 
 use Illuminate\Console\Command;
 use GuzzleHttp\Client;
-use Sdkconsultoria\BlogScraping\Models\ScrapingCategory;
+use Capmega\BlogScraping\Models\ScrapingCategory;
 
 class SendCategories extends Command
 {

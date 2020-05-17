@@ -1,5 +1,5 @@
 <?php
-namespace Sdkconsultoria\BlogScraping\Controllers;
+namespace Capmega\BlogScraping\Controllers;
 
 use Illuminate\Http\Request;
 use Sdkconsultoria\Base\Controllers\ResourceController;
@@ -9,7 +9,7 @@ use Sdkconsultoria\Base\Controllers\ResourceController;
  */
 class ScrapingTargetController extends ResourceController
 {
-    protected $model    = '\Sdkconsultoria\BlogScraping\Models\ScrapingTarget';
+    protected $model    = '\Capmega\BlogScraping\Models\ScrapingTarget';
     protected $view     = 'scraping::scraping-target';
     protected $resource = 'target';
 

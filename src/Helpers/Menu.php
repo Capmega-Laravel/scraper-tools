@@ -1,5 +1,5 @@
 <?php
-namespace Sdkconsultoria\BlogScraping\Helpers;
+namespace Capmega\BlogScraping\Helpers;
 
 /**
 *

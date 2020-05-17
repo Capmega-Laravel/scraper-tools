@@ -1,5 +1,5 @@
 <?php
-namespace Sdkconsultoria\BlogScraping;
+namespace Capmega\BlogScraping;
 
 use Illuminate\Support\ServiceProvider;
 use Sdkconsultoria\Blog\Models\BlogKey;
@@ -26,13 +26,13 @@ class ScrapingServiceProvider extends ServiceProvider
         ]);
 
         $this->commands([
-            \Sdkconsultoria\BlogScraping\Commands\Scraping::class,
-            \Sdkconsultoria\BlogScraping\Commands\SendCategories::class,
-            \Sdkconsultoria\BlogScraping\Commands\SendBlogs::class,
-            \Sdkconsultoria\BlogScraping\Commands\TestApi::class,
-            \Sdkconsultoria\BlogScraping\Commands\FixUrls::class,
-            \Sdkconsultoria\BlogScraping\Commands\FollowUrls::class,
-            \Sdkconsultoria\BlogScraping\Commands\Spin::class,
+            \Capmega\BlogScraping\Commands\Scraping::class,
+            \Capmega\BlogScraping\Commands\SendCategories::class,
+            \Capmega\BlogScraping\Commands\SendBlogs::class,
+            \Capmega\BlogScraping\Commands\TestApi::class,
+            \Capmega\BlogScraping\Commands\FixUrls::class,
+            \Capmega\BlogScraping\Commands\FollowUrls::class,
+            \Capmega\BlogScraping\Commands\Spin::class,
 
         ]);
     }

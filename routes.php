@@ -1,6 +1,6 @@
 <?php
 Route::prefix('admin/scraping')
-->namespace('\Sdkconsultoria\BlogScraping\Controllers')
+->namespace('\Capmega\BlogScraping\Controllers')
 ->group(function () {
     Route::post('catch-category', 'ScrapingController@catchCategory');
     Route::post('catch-post', 'ScrapingController@catchPost');

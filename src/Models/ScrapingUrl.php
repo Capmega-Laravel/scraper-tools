@@ -1,6 +1,6 @@
 <?php
 
-namespace Sdkconsultoria\BlogScraping\Models;
+namespace Capmega\BlogScraping\Models;
 
 use Sdkconsultoria\Base\Models\ResourceModel;
 
@@ -15,9 +15,9 @@ class ScrapingUrl extends ResourceModel
     {
         return [
             'scraping_source_id' => 'required',
-            'url'    => 'required',
-            'driver' => 'required',
-            'name'   => 'required',
+            'url'                => 'required',
+            'driver'             => 'required',
+            'name'               => 'required',
         ];
     }
 
@@ -62,16 +62,16 @@ class ScrapingUrl extends ResourceModel
 
     public function category()
     {
-        return $this->belongsTo('Sdkconsultoria\BlogScraping\Models\ScrapingCategory', 'scraping_category_id', 'id');
+        return $this->belongsTo('Capmega\BlogScraping\Models\ScrapingCategory', 'scraping_category_id', 'id');
     }
 
     public function source()
     {
-        return $this->belongsTo('Sdkconsultoria\BlogScraping\Models\ScrapingSource', 'scraping_source_id', 'id');
+        return $this->belongsTo('Capmega\BlogScraping\Models\ScrapingSource', 'scraping_source_id', 'id');
     }
 
     public function data()
     {
-        return $this->hasOne('Sdkconsultoria\BlogScraping\Models\ScrapingData', 'scraping_url_id', 'id');
+        return $this->hasOne('Capmega\BlogScraping\Models\ScrapingData', 'scraping_url_id', 'id');
     }
 }

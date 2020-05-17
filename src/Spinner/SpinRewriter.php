@@ -1,6 +1,6 @@
 <?php
 
-namespace Sdkconsultoria\BlogScraping\Spinner;
+namespace Capmega\BlogScraping\Spinner;
 
 use GuzzleHttp\Client;
 

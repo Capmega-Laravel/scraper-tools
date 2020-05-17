@@ -1,6 +1,6 @@
 <?php
 
-namespace Sdkconsultoria\BlogScraping\Models;
+namespace Capmega\BlogScraping\Models;
 
 use Sdkconsultoria\Base\Models\ResourceModel;
 
@@ -54,6 +54,6 @@ class ScrapingCategory extends ResourceModel
 
     public function parent()
     {
-        return $this->belongsTo('Sdkconsultoria\BlogScraping\Models\ScrapingCategory', 'scraping_category_id', 'id');
+        return $this->belongsTo('Capmega\BlogScraping\Models\ScrapingCategory', 'scraping_category_id', 'id');
     }
 }

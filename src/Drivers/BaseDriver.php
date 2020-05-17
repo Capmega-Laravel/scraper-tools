@@ -1,10 +1,10 @@
 <?php
-namespace Sdkconsultoria\BlogScraping\Drivers;
+namespace Capmega\BlogScraping\Drivers;
 
 use Storage;
 use Goutte\Client;
 use Symfony\Component\HttpClient\HttpClient;
-use Sdkconsultoria\BlogScraping\Models\{ScrapingData , ScrapingDataKey, ScrapingUrl, ScrapingDataImage, ScrapingCategory, ScrapingSource};
+use Capmega\BlogScraping\Models\{ScrapingData , ScrapingDataKey, ScrapingUrl, ScrapingDataImage, ScrapingCategory, ScrapingSource};
 
 /**
  *

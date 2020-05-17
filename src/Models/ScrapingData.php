@@ -1,11 +1,11 @@
 <?php
 
-namespace Sdkconsultoria\BlogScraping\Models;
+namespace Capmega\BlogScraping\Models;
 
 use Sdkconsultoria\Base\Models\ResourceModel;
 use Symfony\Component\DomCrawler\Crawler;
-use Sdkconsultoria\BlogScraping\Spinner\SpinRewriter;
-use Sdkconsultoria\BlogScraping\Models\ScrapingDataKey;
+use Capmega\BlogScraping\Spinner\SpinRewriter;
+use Capmega\BlogScraping\Models\ScrapingDataKey;
 
 class ScrapingData extends ResourceModel
 {
@@ -53,7 +53,7 @@ class ScrapingData extends ResourceModel
 
     public function images()
     {
-        return $this->hasMany('Sdkconsultoria\BlogScraping\Models\ScrapingDataImage', 'scraping_data_id', 'id');
+        return $this->hasMany('Capmega\BlogScraping\Models\ScrapingDataImage', 'scraping_data_id', 'id');
     }
 
     private function getDataString()

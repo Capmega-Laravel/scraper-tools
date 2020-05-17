@@ -1,6 +1,6 @@
 @php
 use Sdkconsultoria\Base\Widgets\Form\ActiveField;
-use Sdkconsultoria\BlogScraping\Models\ScrapingSource;
+use Capmega\BlogScraping\Models\ScrapingSource;
 @endphp
 
 <?= ActiveField::Input($model, 'scraping_source_id')->select(ScrapingSource::getSelect())?>

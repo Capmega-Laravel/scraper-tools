@@ -1,8 +1,8 @@
 <?php
-namespace Sdkconsultoria\BlogScraping\Commands;
+namespace Capmega\BlogScraping\Commands;
 
 use Illuminate\Console\Command;
-use Sdkconsultoria\BlogScraping\Models\{ScrapingUrl};
+use Capmega\BlogScraping\Models\{ScrapingUrl};
 
 class Scraping extends Command
 {
