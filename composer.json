@@ -1,5 +1,5 @@
 {
-    "name": "capmega/scraper-toolsscraper-tools",
+    "name": "capmega/scraper-tools",
     "type": "library",
     "description": "Sistema de Scraping Genérico",
     "keywords": ["laravel","scraping"],
