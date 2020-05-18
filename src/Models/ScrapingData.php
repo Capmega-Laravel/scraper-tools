@@ -56,6 +56,11 @@ class ScrapingData extends ResourceModel
         return $this->hasMany('Capmega\BlogScraping\Models\ScrapingDataImage', 'scraping_data_id', 'id');
     }
 
+    public function keyValues()
+    {
+        return $this->hasMany('Capmega\BlogScraping\Models\ScrapingDataKey', 'scraping_data_id', 'id');
+    }
+
     private function getDataString()
     {
         $this->parseString($this->getDataArray(), $this->string_origin);
