@@ -132,17 +132,17 @@ class SendBlogs extends Command
                 $urls = $urls->where('url', 'like', '%'.$check_city.'%');
             }
 
-            $urls = $urls->take(100)->get();
+            $urls = $urls->take(10)->get();
 
             if(empty($urls)){
-                $this->error(sprintf('There are 0 URLs to process for this driver %s, maybe is not the correct driver name', $driver_name));
+                $this->comment(sprintf('There are 0 URLs to process for this driver %s, maybe is not the correct driver name', $driver_name));
                 return 0;
             }
 
             /*
              * Perpare variables to process
              */
-            $this->info(sprintf('Starting to process: %d URLS for TARGET: %s and DRIVER: ', count($urls), $target->domain, $driver_name));
+            $this->comment(sprintf('Starting to process: %d URLS for TARGET: %s and DRIVER: ', count($urls), $target->domain, $driver_name));
             $count        = 0;
             $progress_bar = $this->getOutput()->createProgressBar(count($urls));
 
@@ -169,6 +169,14 @@ class SendBlogs extends Command
                  */
                 $images       = $data->images()->limit(20)->get();
                 $array_images = [];
+
+                if(count($images) == 0){
+                    $url->status = 40;
+                    $url->save();
+                    $this->comment(sprintf('Skipping URL with ID: %d due to 0 images found', $url->id));
+                    continue;
+                }
+
                 $this->info(sprintf('Found %d IMAGES for URL ID: %d ', count($images), $url->id));
 
                 /*
@@ -188,6 +196,7 @@ class SendBlogs extends Command
                         $this->error(sprintf('Error opening image for URL ID: %d with IMAGE ID: %d', $url->id, $image->id));
                     }
                 }
+
 
                 /*
                  * Prepare request array
@@ -317,7 +326,10 @@ class SendBlogs extends Command
                         'contents' => 'usd'
                     ];
 
-                    $price = rand(185, 210);
+                    //$price = rand(185, 210);
+                    $prices        = array(190, 200, 210, 220, 250);
+                    $price_postion = array_rand($prices, 1);
+                    $price         = $prices[$price_postion];
 
                     $request_array[] = [
                         'name'     => 'price',
@@ -339,6 +351,7 @@ class SendBlogs extends Command
                  * Merge images
                  */
                 $final_array = array_merge($request_array, $array_images);
+//dd($final_array);
 
                 /*
                  * Send request
@@ -352,7 +365,7 @@ class SendBlogs extends Command
                  */
                 $response_contents = $response->getBody()->getContents();
                 $response_data     = json_decode($response_contents, true);
-dd($response_contents);
+//dd($response_data);
                 /*
                  * Get Code
                  */
@@ -363,13 +376,14 @@ dd($response_contents);
                  */
                 switch($result_code){
                     case 'OK':
-                        $this->info(sprintf('URL ID %d sent correctly', $url->id));
+                        $this->info(sprintf('URL ID %d sent correctly with final URL %s and final CODE: %s', $url->id, $response_data['data']['listing_url'], $response_data['data']['listing_code']));
 
                         /*
                          * Update URL status to processed
                          */
                         $url->status = 30;
                         $url->save();
+//dd($response_data);
                         break;
 
                     default:
@@ -392,6 +406,7 @@ dd($response_contents);
                  * Advance bar and sleep
                  */
                 $progress_bar->advance();
+                $this->line(sprintf('.'));
                 usleep(300000);
             }
 
