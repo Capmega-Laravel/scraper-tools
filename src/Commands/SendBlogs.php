@@ -32,7 +32,8 @@ class SendBlogs extends Command
                                 {--categoryid2  : ID of the category on the target site }
                                 {--categoryid3  : ID of the category on the target site }
                                 {--check_city   : Seoname of the city in the urls of scraped site}
-                                {--check_city   : Just a flag to send keyvalues from data table}';
+                                {--check_city   : Just a flag to send keyvalues from data table}
+                                Example: php artisan capmega:scraper-submit igotit adultsearch --categoryid1=37 --categoryid2=38 --categoryid3=58 --check_city=los-angeles --keyvalues';
 
     /**
      * Create a new command instance.
@@ -85,10 +86,11 @@ class SendBlogs extends Command
             /*
              * Get URLS from this target
              */
-    // :TODO: Filter through target meanwhile we use driver_name on command line
+// :TODO: Filter through target meanwhile we use driver_name on command line
             $urls = ScrapingUrl::where('driver', 'like', '%'.$driver_name.'%')
                                ->where('status', 20); // NOT PROCESSED URLS
 
+// :TODO: Add city support at database level, maybe on URLs
             if($check_city){
                 $city    = '';
                 $state   = '';
@@ -132,7 +134,7 @@ class SendBlogs extends Command
                 $urls = $urls->where('url', 'like', '%'.$check_city.'%');
             }
 
-            $urls = $urls->take(10)->get();
+            $urls = $urls->take(100)->get();
 
             if(empty($urls)){
                 $this->comment(sprintf('There are 0 URLs to process for this driver %s, maybe is not the correct driver name', $driver_name));
@@ -158,6 +160,14 @@ class SendBlogs extends Command
                 $use_category_id = false;
                 $category        = $url->category;
                 $data            = $url->data;
+
+                if(empty($data)){
+                    $url->status = 45;
+                    $url->save();
+                    $this->comment(sprintf('Skipping URL with ID: %d due to NO DATA found', $url->id));
+                    continue;
+                }
+
                 $keyValues       = $data->keyValues;
 
                 if($category1_id and $category2_id){
@@ -356,9 +366,19 @@ class SendBlogs extends Command
                 /*
                  * Send request
                  */
-                $response = $client->request('POST', '', [
-                    'multipart' => $final_array
-                ]);
+                $response = [];
+
+                try{
+                    $response = $client->request('POST', '', [
+                        'multipart' => $final_array
+                    ]);
+
+                }catch(Exception $e){
+                    $url->status = 50;
+                    $url->save();
+                    $this->error(sprintf('Error while sending URL ID %d', $url->id));
+                    continue;
+                }
 
                 /*
                  * Parse response
@@ -387,6 +407,8 @@ class SendBlogs extends Command
                         break;
 
                     default:
+                        $url->status = 50;
+                        $url->save();
                         $this->error(sprintf('Error while sending URL ID %d', $url->id));
 dump($final_array);
 dd($response_contents);
@@ -425,6 +447,7 @@ dd($response_contents);
             //$this->info(sprintf('Total Invoices Checked %d', count($invoices)));
         }catch(Exception $e){
             dump('----------------ERROR---------------');
+            dump($final_array);
             dd($e);
         }
     }
