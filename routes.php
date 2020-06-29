@@ -5,7 +5,7 @@ Route::prefix('admin/scraping')
     Route::post('catch-category', 'ScrapingController@catchCategory');
     Route::post('catch-post', 'ScrapingController@catchPost');
 
-    Route::middleware(['web', 'auth', 'role:super-admin'])->group(function () {
+    Route::middleware(['web', 'auth', 'role:super-admin', 'admin'])->group(function () {
         Route::resource('source', 'ScrapingSourceController');
         Route::resource('url'   , 'ScrapingUrlController');
         Route::resource('target', 'ScrapingTargetController');
