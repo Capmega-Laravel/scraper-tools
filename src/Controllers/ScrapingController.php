@@ -14,13 +14,15 @@ class ScrapingController extends Controller
 {
     public function index()
     {
-        $post = \Capmega\BlogScraping\Models\ScrapingData::where('status', \Capmega\BlogScraping\Models\ScrapingData::STATUS_ACTIVE)->first();
-
-        $text = $post->getDataString();
-        $spinner = new SpinRewriter();
-        $spinner->protected_terms = $post->protected_terms;
-        $post->string_spin = $spinner->spin($text);
-        $post->getDataHtml($post->html);
+        $driver = new \App\Scraper\AdultSearch();
+        $driver->test('georgia/atlanta/female-escorts/1444021');
+        // $post = \Capmega\BlogScraping\Models\ScrapingData::where('status', \Capmega\BlogScraping\Models\ScrapingData::STATUS_ACTIVE)->first();
+        //
+        // $text = $post->getDataString();
+        // $spinner = new SpinRewriter();
+        // $spinner->protected_terms = $post->protected_terms;
+        // $post->string_spin = $spinner->spin($text);
+        // $post->getDataHtml($post->html);
         // dump($text);
         // echo ($post->description);
         // dump($post->string_spin);
